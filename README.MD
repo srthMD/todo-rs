@@ -18,9 +18,11 @@ todo add "fighting with the compiler"
 # 1. fighting with the compiler
 ```
 ```shell
-todo add hello world
-# 1. hello
-# 2. world
+todo add fighting with the compiler
+# 1. fighting
+# 2. with
+# 3. the
+# 4. compiler
 ```
 
 ### Set
