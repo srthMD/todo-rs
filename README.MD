@@ -1,6 +1,8 @@
 # A basic todo CLI tool written in Rust.
 
 Simple todo tool I wrote for some practice, feedback appreciated.
+<br>
+I won't really be maintaining or expanding this much.
 
 >![NOTE]
 > Please do not use this program for real world use as at the time of writing I am
