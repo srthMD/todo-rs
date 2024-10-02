@@ -1,18 +1,18 @@
-use std::io;
-use clap::{Parser, Subcommand};
-use color_eyre::owo_colors::OwoColorize;
-use log::warn;
 use crate::entry::{Entry, EntryStatus};
 use crate::list::{get_todo, sync_todo};
 use crate::remove::RemoveMultiple;
+use clap::{Parser, Subcommand};
+use color_eyre::owo_colors::OwoColorize;
+use log::warn;
+use std::io;
 
-mod list;
 mod entry;
+mod list;
 mod remove;
 
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
-struct Args{
+struct Args {
     name: Option<String>,
 
     #[command(subcommand)]
@@ -25,7 +25,7 @@ enum Commands {
     Add {
         /// The entry(s) to add to the list, single entries with spaces must be encased with quotes, multiple entries are seperated by spaces
         #[arg(value_name = "ENTRIES", value_delimiter = ',', num_args = 1..)]
-        entries: Vec<String>
+        entries: Vec<String>,
     },
 
     /// Marks one or more entries with a certain status (complete, in progress, etc.)
@@ -50,8 +50,8 @@ enum Commands {
     Clear {
         /// Only clears any entry with the provided status
         #[arg(short, long, value_enum)]
-        with_status: Option<EntryStatus>
-    }
+        with_status: Option<EntryStatus>,
+    },
 }
 
 fn main() {
@@ -70,14 +70,12 @@ fn main() {
                 }
             }
         }
-        Some(command) => {
-            match match_command(&command) {
-                Ok(_) => {}
-                Err(err) => {
-                    println!("{}: {}", "Error while running command".red().bold(), err)
-                }
+        Some(command) => match match_command(&command) {
+            Ok(_) => {}
+            Err(err) => {
+                println!("{}: {}", "Error while running command".red().bold(), err)
             }
-        }
+        },
     }
 }
 
@@ -102,21 +100,21 @@ fn match_command(command: &Commands) -> Result<(), io::Error> {
             Ok(())
         }
 
-        Commands::Set { status, entries} => {
+        Commands::Set { status, entries } => {
             for val in entries {
                 let index = match val.parse::<usize>() {
-                    Ok(i) => {i}
+                    Ok(i) => i,
                     Err(_) => {
                         warn!("{} {}", "Failed to parse index value ", val);
-                        continue
+                        continue;
                     }
                 };
 
-                let entry = list.entries.get_mut(index-1);
+                let entry = list.entries.get_mut(index - 1);
 
                 if entry.is_none() {
                     warn!("Failed to get index {} in todo list", index);
-                    continue
+                    continue;
                 }
 
                 entry.unwrap().set_status(*status);
@@ -126,10 +124,11 @@ fn match_command(command: &Commands) -> Result<(), io::Error> {
             Ok(())
         }
 
-        Commands::Remove {entries} => {
-            let indicies = entries.iter().map(|s_indx|
-                s_indx.parse::<usize>().unwrap()-1
-            ).collect();
+        Commands::Remove { entries } => {
+            let indicies = entries
+                .iter()
+                .map(|s_indx| s_indx.parse::<usize>().unwrap() - 1)
+                .collect();
 
             list.entries.remove_multiple(indicies);
 
@@ -137,10 +136,13 @@ fn match_command(command: &Commands) -> Result<(), io::Error> {
 
             Ok(())
         }
-        Commands::Clear {with_status} => {
+
+        Commands::Clear { with_status } => {
             match with_status {
-                None => {list.entries.clear();}
-                Some(status) => {list.entries.retain(|e| {!(e.status == *status)}) }
+                None => {
+                    list.entries.clear();
+                }
+                Some(status) => list.entries.retain(|e| !(e.status == *status)),
             }
 
             sync_todo(&list)?;
