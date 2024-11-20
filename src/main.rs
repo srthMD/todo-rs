@@ -83,7 +83,6 @@ fn match_command(command: &Commands) -> Result<(), io::Error> {
     match command {
         Commands::Add { entries } => {
             for val in entries {
-                println!("{}", val);
                 let entry = Entry::new(val.into());
 
                 if list.entries.contains(&entry) {
@@ -92,6 +91,7 @@ fn match_command(command: &Commands) -> Result<(), io::Error> {
                 }
 
                 list.entries.push(entry);
+                println!("{}. {}", list.entries.len(), val);
             }
             sync_todo(&list)?;
 
