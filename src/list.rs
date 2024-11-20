@@ -34,6 +34,16 @@ impl TodoList {
     pub fn empty() -> Self {
         TodoList { entries: vec![] }
     }
+
+    pub fn remove_multiple(&mut self, elements: Vec<usize>) {
+        let mut offset = 0usize;
+
+        for indx in elements {
+            self.entries.remove(indx - offset);
+
+            offset += 1;
+        }
+    }
 }
 
 fn get_file(req_write: bool) -> io::Result<File> {

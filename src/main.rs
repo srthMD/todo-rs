@@ -1,6 +1,5 @@
 use crate::entry::{Entry, EntryStatus};
 use crate::list::{get_todo, sync_todo};
-use crate::remove::RemoveMultiple;
 use clap::{Parser, Subcommand};
 use color_eyre::owo_colors::OwoColorize;
 use log::warn;
@@ -8,7 +7,6 @@ use std::io;
 
 mod entry;
 mod list;
-mod remove;
 
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
@@ -130,7 +128,7 @@ fn match_command(command: &Commands) -> Result<(), io::Error> {
                 .map(|s_indx| s_indx.parse::<usize>().unwrap() - 1)
                 .collect();
 
-            list.entries.remove_multiple(indicies);
+            list.remove_multiple(indicies);
 
             sync_todo(&list)?;
 
@@ -148,5 +146,28 @@ fn match_command(command: &Commands) -> Result<(), io::Error> {
             sync_todo(&list)?;
             Ok(())
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::{entry::Entry, list::TodoList};
+
+    #[test]
+    fn test_remove_multiple() {
+        let mut list = TodoList::empty();
+
+        list.entries.push(Entry::new("hello".to_string()));
+        list.entries.push(Entry::new("world".to_string()));
+        list.entries.push(Entry::new("one".to_string()));
+        list.entries.push(Entry::new("two".to_string()));
+
+        list.remove_multiple(vec![1, 2]);
+
+        assert!(list.entries.len() == 2);
+
+        let two_entry = list.entries.get(1);
+        assert!(two_entry.is_some());
+        assert_eq!(two_entry.unwrap().name, "two".to_string())
     }
 }
