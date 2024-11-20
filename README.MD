@@ -45,6 +45,7 @@ Usage:
 ```shell
 todo remove 1
 # The first entry in the list will be removed
+# To remove multiple entries in one command, just add multiple indicies seperated by spaces
 ```
 
 ### Clear
