@@ -24,23 +24,26 @@ impl Entry {
         }
     }
 
-    pub fn to_styled(self) -> StyledObject<String> {
+    pub fn to_styled(&self) -> StyledObject<String> {
         match self.status {
             EntryStatus::Incomplete => {
                 let incomplete_style: Style = Style::new();
-                incomplete_style.apply_to(self.name)
+                incomplete_style.apply_to(self.name.clone())
             }
+
             EntryStatus::InProgress => {
                 let inprogress_style: Style = Style::new().yellow().blink();
-                inprogress_style.apply_to(self.name)
+                inprogress_style.apply_to(self.name.clone())
             }
+
             EntryStatus::Scrapped => {
                 let scrapped_style: Style = Style::new().strikethrough().dim();
-                scrapped_style.apply_to(self.name)
+                scrapped_style.apply_to(self.name.clone())
             }
+
             EntryStatus::Completed => {
                 let complete_style: Style = Style::new().green().bold().underlined();
-                complete_style.apply_to(self.name)
+                complete_style.apply_to(self.name.clone())
             }
         }
     }
@@ -59,4 +62,3 @@ impl PartialEq for Entry {
         self.name.ne(&other.name) && self.status.ne(&other.status)
     }
 }
-

@@ -20,12 +20,10 @@ impl TodoList {
             return;
         }
 
-        let mut index = 0;
+        let mut index = 1usize;
 
         for entry in &self.entries {
-            let mut entry_str = (index + 1).to_string();
-            entry_str.push_str(". ");
-            println!("{}. {}", index + 1, entry.clone().to_styled());
+            println!("{}. {}", index, entry.to_styled());
 
             index += 1;
         }
@@ -55,6 +53,7 @@ fn get_file(req_write: bool) -> io::Result<File> {
 
     let file = match result {
         Ok(f) => f,
+
         Err(err) => match err.kind() {
             ErrorKind::NotFound => OpenOptions::new()
                 .read(true)
