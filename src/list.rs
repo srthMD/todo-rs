@@ -33,8 +33,12 @@ impl TodoList {
         TodoList { entries: vec![] }
     }
 
-    pub fn remove_multiple(&mut self, elements: Vec<usize>) {
+    pub fn remove_multiple(&mut self, mut elements: Vec<usize>) {
         let mut offset = 0usize;
+
+        if !elements.is_sorted() {
+            elements.sort();
+        }
 
         for indx in elements {
             self.entries.remove(indx - offset);
