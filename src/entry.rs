@@ -48,8 +48,8 @@ impl Entry {
         }
     }
 
-    pub fn set_status(&mut self, entry_status: EntryStatus) {
-        self.status = entry_status
+    pub fn set_status(&mut self, entry_status: &EntryStatus) {
+        self.status = entry_status.clone()
     }
 }
 

@@ -115,7 +115,7 @@ fn match_command(command: &Commands) -> Result<(), io::Error> {
                     continue;
                 }
 
-                entry.unwrap().set_status(*status);
+                entry.unwrap().set_status(status);
             }
             sync_todo(&list)?;
 
@@ -164,7 +164,7 @@ mod tests {
 
         list.remove_multiple(vec![1, 2]);
 
-        assert!(list.entries.len() == 2);
+        assert_eq!(list.entries.len(), 2);
 
         let two_entry = list.entries.get(1);
         assert!(two_entry.is_some());
