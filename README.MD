@@ -1,12 +1,14 @@
 # A basic todo CLI tool written in Rust.
 
-Simple todo tool I wrote for some practice, feedback appreciated.
-<br>
-I won't really be maintaining or expanding this much.
+Simple todo tool I wrote for some practice.
 
-> [!NOTE]
-> Please do not use this program for real world use as at the time of writing I am
-> very new to Rust and there are probably lots of performance issues.
+##Building
+Literally just run cargo build.
+<br>
+```shell
+cargo b
+```
+
 
 ## Basic Commands
 ### Add
