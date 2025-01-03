@@ -84,7 +84,7 @@ pub fn get_todo() -> io::Result<TodoList> {
 
     file.read_to_string(&mut buf)?;
 
-    let deserialized: TodoList = serde_json::from_str(buf.leak())?;
+    let deserialized: TodoList = serde_json::from_str(buf.as_str())?;
 
     Ok(deserialized)
 }
