@@ -2,7 +2,7 @@
 
 Simple todo tool I wrote for some practice.
 
-##Building
+## Building
 Literally just run cargo build.
 <br>
 ```shell
